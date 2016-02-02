@@ -114,10 +114,10 @@ int main(int argc, char **argv){
 	//notice: we need to convert time into microsecond
 	//we need combine decimal digits and digits after decimal point first
 	//then we need calculate time difference
-	//finally we need to convert it to microsecond unit
+	//finally we need to convert it to microsecond
 
 //for aes skip the first round,
-//because first round involve initialization and resource allocate, the time is not accurate
+//because first round involves initialization and resource allocation, the time is not accurate
 	for(round=0 ; round<101; round++){
 		clock_gettime(0x01, &start_time);
 		aes(plain_text, size, alg, name);
@@ -144,10 +144,10 @@ int main(int argc, char **argv){
 	 * transform plain text
 	 * into hex numeric pair
 	 *for RSA algorithm
-	 *RSA only support
+	 *RSA only supports
 	 *'C-string' (common string)
 	 *and the maximum length
-	 *is 128bits
+	 *is 128 bytes
 	 * */
 	int i;
 	//transform each char (1 bytes) into 2 hexadecimal numbers
