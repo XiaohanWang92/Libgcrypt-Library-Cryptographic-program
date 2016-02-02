@@ -40,8 +40,8 @@ int aes(char *plaintext, size_t size, int alg, const char *name){
 	//allocate memory
 	char *out = malloc(size);
 
-	//hd for decrypt
-	//he for encrypt
+	//he for decrypt
+	//hd for encrypt
 	gcry_cipher_hd_t hd;
 	gcry_cipher_hd_t he;
 
@@ -73,7 +73,7 @@ int aes(char *plaintext, size_t size, int alg, const char *name){
 //	}
 //	printf("\n\n");
 
-	//encrypt by using handler hd (yes, I just use h(handler)d(decryption)), hehe. cipher text is in out
+	//encrypt by using handler hd (yes, I just use h(handler)d(decryption)). cipher text is in out char array
 	gcry_cipher_encrypt(hd, out, txtLenght, plaintext, txtLenght);
 
 //	printf("ciphered text: \n = ");
@@ -82,7 +82,7 @@ int aes(char *plaintext, size_t size, int alg, const char *name){
 //	}
 //	printf("\n\n");
 
-	//decrypt by using handler he, decrypt in-place so the last two parameter is set to NULL, 0
+	//decrypt by using handler he, decrypt in-place so the last two parameters are set to NULL, 0
 	gcry_cipher_decrypt(he, out, txtLenght, NULL, 0);
 
 //	printf("decryption text: \n");
