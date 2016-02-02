@@ -18,7 +18,7 @@ int aes(char *plaintext, size_t size, int alg, const char *name){
 				gcry_control(GCRYCTL_SUSPEND_SECMEM_WARN);
 				//16kB
 				/* based on:
-				 Allocate a pool of 16k secure memory.  This make the secure memory
+				 Allocate a pool of 16k secure memory.  This makes the secure memory
 				 available and also drops privileges where needed.  */
 				gcry_control(GCRYCTL_INIT_SECMEM, 16384, 0);
 				gcry_control(GCRYCTL_RESUME_SECMEM_WARN);
@@ -59,7 +59,7 @@ int aes(char *plaintext, size_t size, int alg, const char *name){
 	gcry_cipher_open(&hd, algo, GCRY_CIPHER_MODE_CTR, 0);
 	gcry_cipher_open(&he, algo, GCRY_CIPHER_MODE_CTR, 0);
 
-	//set key for both handler
+	//set key for both handlers
 	gcry_cipher_setkey(hd, key, ksize);
 	gcry_cipher_setkey(he, key, ksize);
 
