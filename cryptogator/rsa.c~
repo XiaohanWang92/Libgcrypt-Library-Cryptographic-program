@@ -27,7 +27,7 @@ char* sexp_string(gcry_sexp_t sexp) {
 	size_t buf_len = gcry_sexp_sprint(sexp, GCRYSEXP_FMT_ADVANCED, NULL, 0);
 	char *buffer = (char*)gcry_malloc(buf_len);
 	if (buffer == NULL) {
-		printf("malloc fail!\n");
+		printf("malloc fail!\n", buf_len);
 		exit(1);
 	}
 	if (gcry_sexp_sprint(sexp, GCRYSEXP_FMT_ADVANCED, buffer, buf_len)==0) {
