@@ -102,7 +102,7 @@ char* encrypt(char *public_key, char *plaintext){
 		printf("error in gcry_sexp_build trace: %ld: %s\nSource: %s\n", erroff, gcry_strerror(error), gcry_strsource(error));
 		exit(1);
 	}
-	//encrypt begins
+	//encryption begins
 	gcry_sexp_t public_sexp = sexp_new(public_key);
 	gcry_sexp_t r_ciph;
 	if ((error = gcry_pk_encrypt(&r_ciph, data, public_sexp))) {
