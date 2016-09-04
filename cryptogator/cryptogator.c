@@ -216,153 +216,153 @@ int main(int argc, char **argv){
 	double rsa1024avg = sum/100;
 
 
-		//digital signature
-		char *signature;
-		signature = digital_sign(private_key, plaintext);
-		printf("RSA digital authentication signature :\n%s\n", signature);
-		printf("verify signature, if it is valid then indicating that our program is in good shape!\n\n");
-		if (verify_sign(public_key, plaintext, signature)) {
-			printf("valid signature!\n");
-		} else {
-			printf("invalid signature!\n");
-		}
-		printf("\n\nRSA4096 mode 100 times check\n");
-		//RSA4096, the same as above, just change the mode
-		gen_k4096(&public_key, &private_key);
-		printf("plaintext:\n%s\r\n", plaintext);
-		printf("RSA4096:\n");
-		printf("Public Key:\n%s\n", public_key);
-		printf("Private Key:\n%s\n", private_key);
+	//digital signature
+	char *signature;
+	signature = digital_sign(private_key, plaintext);
+	printf("RSA digital authentication signature :\n%s\n", signature);
+	printf("verify signature, if it is valid then indicating that our program is in good shape!\n\n");
+	if (verify_sign(public_key, plaintext, signature)) {
+		printf("valid signature!\n");
+	} else {
+		printf("invalid signature!\n");
+	}
+	printf("\n\nRSA4096 mode 100 times check\n");
+	//RSA4096, the same as above, just change the mode
+	gen_k4096(&public_key, &private_key);
+	printf("plaintext:\n%s\r\n", plaintext);
+	printf("RSA4096:\n");
+	printf("Public Key:\n%s\n", public_key);
+	printf("Private Key:\n%s\n", private_key);
 
-		for(round=0; round<100; round++){
-			clock_gettime(0x01, &start_time);
-			ciphertext = encrypt(public_key, plaintext);
-			//printf("ciphertext:\n%s\r\n", ciphertext);
-			decrypted = decrypt(private_key, ciphertext);
-			//printf("deciphered text:\n%s\r\n", decrypted);
-			clock_gettime(0x01, &end_time);
-			time_elapse[round]=end_time.tv_sec*1000000000.0+end_time.tv_nsec;
-			time_elapse[round]=time_elapse[round]-start_time.tv_sec*1000000000.0-start_time.tv_nsec;
-			time_elapse[round] /= 1000.0;
-			printf("round %d : %.4lf microsec\n", round+1, time_elapse[round]);
-		}
+	for(round=0; round<100; round++){
+		clock_gettime(0x01, &start_time);
+		ciphertext = encrypt(public_key, plaintext);
+		//printf("ciphertext:\n%s\r\n", ciphertext);
+		decrypted = decrypt(private_key, ciphertext);
+		//printf("deciphered text:\n%s\r\n", decrypted);
+		clock_gettime(0x01, &end_time);
+		time_elapse[round]=end_time.tv_sec*1000000000.0+end_time.tv_nsec;
+		time_elapse[round]=time_elapse[round]-start_time.tv_sec*1000000000.0-start_time.tv_nsec;
+		time_elapse[round] /= 1000.0;
+		printf("round %d : %.4lf microsec\n", round+1, time_elapse[round]);
+	}
 
-		qsort (time_elapse, sizeof(time_elapse)/sizeof(*time_elapse), sizeof(*time_elapse), comparator);
+	qsort (time_elapse, sizeof(time_elapse)/sizeof(*time_elapse), sizeof(*time_elapse), comparator);
 
-		sum=0;
-		for(round=0; round<100; round++){
-			sum += time_elapse[round];
-		}
-		printf("/********************/\n");
-		printf("result:\nmedian is : %.4lf microsec and average is :  %.4lf microsec\n", time_elapse[50], sum/100);
-		printf("/********************/\n");
-		double rsa4096median = time_elapse[50];
-		double rsa4096avg = sum/100;
+	sum=0;
+	for(round=0; round<100; round++){
+		sum += time_elapse[round];
+	}
+	printf("/********************/\n");
+	printf("result:\nmedian is : %.4lf microsec and average is :  %.4lf microsec\n", time_elapse[50], sum/100);
+	printf("/********************/\n");
+	double rsa4096median = time_elapse[50];
+	double rsa4096avg = sum/100;
 
 
-		signature = digital_sign(private_key, plaintext);
-		printf("RSA digital authentication signature :\n%s\n", signature);
-		printf("verify signature, if it is valid then indicating that our program is in good shape!\n\n");
-		if (verify_sign(public_key, plaintext, signature)) {
-			printf("valid 4096 signature!\n");
-		} else {
-			printf("invalid 4096 signature!\n");
-		}
-		printf("\n");
+	signature = digital_sign(private_key, plaintext);
+	printf("RSA digital authentication signature :\n%s\n", signature);
+	printf("verify signature, if it is valid then indicating that our program is in good shape!\n\n");
+	if (verify_sign(public_key, plaintext, signature)) {
+		printf("valid 4096 signature!\n");
+	} else {
+		printf("invalid 4096 signature!\n");
+	}
+	printf("\n");
 
-	    //HMAC MD5
-		printf("MD5 HMAC 100-time testing: \n");
-	    int algo = GCRY_MD_MD5;
-	    char *scheme = "MD5";
-	    for(round =0; round < 100; round++){
-	    	clock_gettime(0x01, &start_time);
-	    	hmac(plaintext, algo, scheme);
-	    	clock_gettime(0x01, &end_time);
-	    	time_elapse[round]=end_time.tv_sec*1000000000.0+end_time.tv_nsec;
-	    	time_elapse[round]=time_elapse[round]-start_time.tv_sec*1000000000.0-start_time.tv_nsec;
-	    	time_elapse[round] /= 1000.0;
-	    	printf("round %d : %.4lf microsec\n", round+1, time_elapse[round]);
-	    }
-	    qsort (time_elapse, sizeof(time_elapse)/sizeof(*time_elapse), sizeof(*time_elapse), comparator);
+    //HMAC MD5
+	printf("MD5 HMAC 100-time testing: \n");
+    int algo = GCRY_MD_MD5;
+    char *scheme = "MD5";
+    for(round =0; round < 100; round++){
+    	clock_gettime(0x01, &start_time);
+    	hmac(plaintext, algo, scheme);
+    	clock_gettime(0x01, &end_time);
+    	time_elapse[round]=end_time.tv_sec*1000000000.0+end_time.tv_nsec;
+    	time_elapse[round]=time_elapse[round]-start_time.tv_sec*1000000000.0-start_time.tv_nsec;
+    	time_elapse[round] /= 1000.0;
+    	printf("round %d : %.4lf microsec\n", round+1, time_elapse[round]);
+    }
+    qsort (time_elapse, sizeof(time_elapse)/sizeof(*time_elapse), sizeof(*time_elapse), comparator);
 
-	    sum=0;
-	    for(round=0; round<100; round++){
-	    	sum += time_elapse[round];
-	    }
-	    printf("/********************/\n");
-	    printf("result:\nmedian is : %.4lf microsec and average is :  %.4lf microsec\n", time_elapse[50], sum/100);
-	    printf("/********************/\n");
-	    double md5median = time_elapse[50];
-	    double md5avg = sum/100;
+    sum=0;
+    for(round=0; round<100; round++){
+    	sum += time_elapse[round];
+    }
+    printf("/********************/\n");
+    printf("result:\nmedian is : %.4lf microsec and average is :  %.4lf microsec\n", time_elapse[50], sum/100);
+    printf("/********************/\n");
+    double md5median = time_elapse[50];
+    double md5avg = sum/100;
 
-	    //HMAC SHA1
-	    printf("HMAC SHA1 100-time testing: \n");
-	    algo = GCRY_MD_SHA1;
-	    scheme = "SHA1";
-	    for(round =0; round < 100; round++){
-	    	clock_gettime(0x01, &start_time);
-	    	hmac(plaintext, algo, scheme);
-	    	clock_gettime(0x01, &end_time);
-	    	time_elapse[round]=end_time.tv_sec*1000000000.0+end_time.tv_nsec;
-	    	time_elapse[round]=time_elapse[round]-start_time.tv_sec*1000000000.0-start_time.tv_nsec;
-	    	time_elapse[round] /= 1000.0;
-	    	printf("round %d : %.4lf microsec\n", round+1, time_elapse[round]);
-	    }
-	    qsort (time_elapse, sizeof(time_elapse)/sizeof(*time_elapse), sizeof(*time_elapse), comparator);
+    //HMAC SHA1
+    printf("HMAC SHA1 100-time testing: \n");
+    algo = GCRY_MD_SHA1;
+    scheme = "SHA1";
+    for(round =0; round < 100; round++){
+    	clock_gettime(0x01, &start_time);
+    	hmac(plaintext, algo, scheme);
+    	clock_gettime(0x01, &end_time);
+    	time_elapse[round]=end_time.tv_sec*1000000000.0+end_time.tv_nsec;
+    	time_elapse[round]=time_elapse[round]-start_time.tv_sec*1000000000.0-start_time.tv_nsec;
+    	time_elapse[round] /= 1000.0;
+    	printf("round %d : %.4lf microsec\n", round+1, time_elapse[round]);
+    }
+    qsort (time_elapse, sizeof(time_elapse)/sizeof(*time_elapse), sizeof(*time_elapse), comparator);
 
-	    sum=0;
-	    for(round=0; round<100; round++){
-	    	sum += time_elapse[round];
-	    }
-	    printf("/********************/\n");
-	    printf("result:\nmedian is : %.4lf microsec and average is :  %.4lf microsec\n", time_elapse[50], sum/100);
-	    printf("/********************/\n");
-	    double sha1median = time_elapse[50];
-	    double sha1avg = sum/100;
+    sum=0;
+    for(round=0; round<100; round++){
+    	sum += time_elapse[round];
+    }
+    printf("/********************/\n");
+    printf("result:\nmedian is : %.4lf microsec and average is :  %.4lf microsec\n", time_elapse[50], sum/100);
+    printf("/********************/\n");
+    double sha1median = time_elapse[50];
+    double sha1avg = sum/100;
 
-	    //HMAC SHA256
-	    printf("HMAC SHA256 100-time testing: \n");
-	    algo = GCRY_MD_SHA256;
-	    scheme = "SHA256";
-	    for(round =0; round < 100; round++){
-	    	clock_gettime(0x01, &start_time);
-	    	hmac(plaintext, algo, scheme);
-	    	clock_gettime(0x01, &end_time);
-	    	time_elapse[round]=end_time.tv_sec*1000000000.0+end_time.tv_nsec;
-	    	time_elapse[round]=time_elapse[round]-start_time.tv_sec*1000000000.0-start_time.tv_nsec;
-	    	time_elapse[round] /= 1000.0;
-	    	printf("round %d : %.4lf microsec\n", round+1, time_elapse[round]);
-	    }
-	    qsort (time_elapse, sizeof(time_elapse)/sizeof(*time_elapse), sizeof(*time_elapse), comparator);
+    //HMAC SHA256
+    printf("HMAC SHA256 100-time testing: \n");
+    algo = GCRY_MD_SHA256;
+    scheme = "SHA256";
+    for(round =0; round < 100; round++){
+    	clock_gettime(0x01, &start_time);
+    	hmac(plaintext, algo, scheme);
+    	clock_gettime(0x01, &end_time);
+    	time_elapse[round]=end_time.tv_sec*1000000000.0+end_time.tv_nsec;
+    	time_elapse[round]=time_elapse[round]-start_time.tv_sec*1000000000.0-start_time.tv_nsec;
+    	time_elapse[round] /= 1000.0;
+    	printf("round %d : %.4lf microsec\n", round+1, time_elapse[round]);
+    }
+    qsort (time_elapse, sizeof(time_elapse)/sizeof(*time_elapse), sizeof(*time_elapse), comparator);
 
-	    sum=0;
-	    for(round=0; round<100; round++){
-	    	sum += time_elapse[round];
-	    }
-	    printf("/********************/\n");
-	    printf("result:\nmedian is : %.4lf microsec and average is :  %.4lf microsec\n", time_elapse[50], sum/100);
-	    printf("/********************/\n");
-	    double sha256median = time_elapse[50];
-	    double sha256avg = sum/100;
+    sum=0;
+    for(round=0; round<100; round++){
+    	sum += time_elapse[round];
+    }
+    printf("/********************/\n");
+    printf("result:\nmedian is : %.4lf microsec and average is :  %.4lf microsec\n", time_elapse[50], sum/100);
+    printf("/********************/\n");
+    double sha256median = time_elapse[50];
+    double sha256avg = sum/100;
 
-	    //HMAC SHA256+digital signature
-	    printf("SHA256 + RSA 4096 testing: \n");
-	    algo = GCRY_MD_SHA256;
-	    scheme = "SHA256";
-	    char *sexp_hmac_sign = "(genkey (rsa (transient-key) (nbits 4:4096)))";
-	    hmarsa(plaintext, algo, scheme, sexp_hmac_sign);
+    //HMAC SHA256+digital signature
+    printf("SHA256 + RSA 4096 testing: \n");
+    algo = GCRY_MD_SHA256;
+    scheme = "SHA256";
+    char *sexp_hmac_sign = "(genkey (rsa (transient-key) (nbits 4:4096)))";
+    hmarsa(plaintext, algo, scheme, sexp_hmac_sign);
 
-	    printf("result summary:\n");
-	    printf("For AES128, median is %lf , avg is %lf \n" , aes128median, aes128avg);
-	    printf("For AES256, median is %lf , avg is %lf \n" , aes256median, aes256avg);
-	    printf("For RSA1024, median is % lf, avg is %lf \n" , rsa1024median, rsa1024avg);
-	    printf("For RSA4096, median is %lf , avg is %lf \n" , rsa4096median, rsa4096avg);
-	    printf("For MD5, median is %lf , avg is %lf \n" , md5median, md5avg);
-	    printf("For SHA1, median is %lf , avg is %lf \n" , sha1median, sha1avg);
-	    printf("For SHA256, median is %lf , avg is %lf \n" , sha256median, sha256avg);
+    printf("result summary:\n");
+    printf("For AES128, median is %lf , avg is %lf \n" , aes128median, aes128avg);
+    printf("For AES256, median is %lf , avg is %lf \n" , aes256median, aes256avg);
+    printf("For RSA1024, median is % lf, avg is %lf \n" , rsa1024median, rsa1024avg);
+    printf("For RSA4096, median is %lf , avg is %lf \n" , rsa4096median, rsa4096avg);
+    printf("For MD5, median is %lf , avg is %lf \n" , md5median, md5avg);
+    printf("For SHA1, median is %lf , avg is %lf \n" , sha1median, sha1avg);
+    printf("For SHA256, median is %lf , avg is %lf \n" , sha256median, sha256avg);
 
-	    //close file, free memory
-		fclose (pFile);
-		free (buffer);
+    //close file, free memory
+	fclose (pFile);
+	free (buffer);
 	return 0;
 }
